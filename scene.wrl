@@ -1,6 +1,8 @@
 #VRML V2.0 utf8 Titania V4.4.5
 
-WorldInfo { }
+WorldInfo {
+  title "scene"
+}
 
 Background {
   backUrl "..mountains.png"
@@ -29,7 +31,7 @@ Background {
 Transform {
   children [
     DEF Box Transform {
-      translation -1.51624 2 -1
+      translation -1.51624 1.141 -1
       children Shape {
         appearance Appearance {
           material DEF Spring4 Material {
@@ -43,7 +45,7 @@ Transform {
       }
     }
     DEF Cone Transform {
-      translation -1.73534 2 2
+      translation -1.58751 1.10777 1.6875
       children Shape {
         appearance Appearance {
           material DEF Rococo19 Material {
@@ -57,7 +59,7 @@ Transform {
       }
     }
     DEF Cylinder Transform {
-      translation 1.35602 2.44848 -0.68031
+      translation 1.52819 1.19089 -1.0516
       children Shape {
         appearance Appearance {
           material DEF Sheen12 Material {
@@ -71,7 +73,7 @@ Transform {
       }
     }
     DEF Sphere Transform {
-      translation 1.62032 1.39656 1.64823
+      translation 1.62032 1.11196 1.76008
       children Shape {
         appearance Appearance {
           material DEF Metal8 Material {
