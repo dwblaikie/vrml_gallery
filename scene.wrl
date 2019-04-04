@@ -1,0 +1,101 @@
+#VRML V2.0 utf8 Titania V4.4.5
+
+WorldInfo { }
+
+Background {
+  backUrl "..mountains.png"
+  leftUrl "..mountains.png"
+  rightUrl "..mountains.png"
+  skyAngle [
+    1.309,
+    1.571
+  ]
+  skyColor [
+    0 0.2 0.7,
+    0 0.5 1,
+    1 1 1
+  ]
+  groundAngle [
+    1.309,
+    1.5708
+  ]
+  groundColor [
+    0.1 0.1 0,
+    0.4 0.25 0.2,
+    0.6 0.6 0.6
+  ]
+}
+
+Transform {
+  children [
+    DEF Box Transform {
+      translation -1.51624 2 -1
+      children Shape {
+        appearance Appearance {
+          material DEF Spring4 Material {
+            ambientIntensity 0.253968
+            diffuseColor 1 0.854922 0
+            specularColor 0.872449 0.247119 0.254214
+            shininess 1
+          }
+        }
+        geometry Box { }
+      }
+    }
+    DEF Cone Transform {
+      translation -1.73534 2 2
+      children Shape {
+        appearance Appearance {
+          material DEF Rococo19 Material {
+            ambientIntensity 0.187004
+            diffuseColor 0.412056 0.422504 0.748016
+            specularColor 0.290909 0.290909 0.290909
+            shininess 0.787879
+          }
+        }
+        geometry Cone { }
+      }
+    }
+    DEF Cylinder Transform {
+      translation 1.35602 2.44848 -0.68031
+      children Shape {
+        appearance Appearance {
+          material DEF Sheen12 Material {
+            ambientIntensity 0.107945
+            diffuseColor 0.024884 0.423143 0.00258622
+            specularColor 0.505305 0.463899 0
+            shininess 0.127551
+          }
+        }
+        geometry Cylinder { }
+      }
+    }
+    DEF Sphere Transform {
+      translation 1.62032 1.39656 1.64823
+      children Shape {
+        appearance Appearance {
+          material DEF Metal8 Material {
+            ambientIntensity 0.109091
+            diffuseColor 0.454545 0.107552 0
+            specularColor 0.951515 0.729659 0
+            shininess 0.927273
+          }
+        }
+        geometry Sphere { }
+      }
+    }
+  ]
+}
+
+DEF ElevationGrid Transform {
+  translation -4.49091 0 -4.73314
+  children Shape {
+    appearance Appearance {
+      material Material { }
+    }
+    geometry ElevationGrid {
+      xDimension 10
+      zDimension 10
+    }
+  }
+}
