@@ -1,10 +1,10 @@
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1252">
-    <title>Model</title>
-	<link rel="stylesheet" type="text/css" href="https://code.create3000.de/x_ite/4.2.7/dist/x_ite.css"/>
-	<script type="text/javascript" src="https://code.create3000.de/x_ite/4.2.7/dist/x_ite.min.js"></script>
-    <script type="text/javascript">
+<meta http-equiv="content-type" content="text/html" charset="UTF-8">
+    <title>3D Model Viewer/Recorder</title>
+	<link rel="stylesheet" type="text/css" href="https://create3000.github.io/code/x_ite/4.7.15/dist/x_ite.css"/>
+	<script type="text/javascript" src="https://create3000.github.io/code/x_ite/4.7.15/dist/x_ite.min.js"></script>
+	<script type="text/javascript">
 		// pull a parameter off url
 		function GetURLParameter(paramName){
 			var fs = window.location.search.substring(1).split('&');
@@ -15,27 +15,116 @@
 				}
 			}
 		}
-		// set the text of an element from the model parameter pulled off the pages url 
-		// and make a new X3DCanvas Element, before it, with the source being the same text
-		function insertModel(id){
-			var x3d = document.createElement("X3DCanvas")
-			var att = document.createAttribute("src")
-			att.value =GetURLParameter('model');
-			x3d.setAttributeNode(att);  
-	        document.getElementById(id).parentNode.insertBefore(x3d,null)
-	        x3d.focus()
- 		return att.value
-     }
+		
+		// insert a new X3DCanvas Element, inside the provided element, set its source from the page urls 'paramName' parameter and return the base of the url. 
+		function insertX3DCanvasChild(elem,paramName){
+			var n = document.createElement("X3DCanvas")
+			var a = document.createAttribute("src")
+			a.value =GetURLParameter(paramName);
+			n.setAttributeNode(a);  
+	        elem.appendChild(n)
+<!--	        elem.focus()-->
+ 			return base(a.value)
+ 		}
+ 		
+		// strip path
+		function base(url){
+			return decodeURI(url).split('/').pop() 
+		}
 	</script>
+
+    <script type="text/javascript">
+		function record(ms){
+			var mr=new MediaRecorder(ms)
+			mr.onwarning = function(e){
+				console.log(e)
+			}
+			mr.onerror = function(e){
+				alert(e)
+			}
+			mr.ondataavailable = function(e){
+				downloadBlob(e.data)
+			}
+			return mr
+		}
+	
+		function downloadBlob(b) {
+			var url = URL.createObjectURL(b);
+			const a = document.createElement('a');
+			a.href = url;
+			a.style.display = 'none';
+<!--//			a.target="_blank" ;-->
+			document.body.appendChild(a);
+			setTimeout(() => {
+				document.body.removeChild(a);
+				window.URL.revokeObjectURL(url);
+				}, 5000);
+			a.click();
+		}
+	</script>
+
     <style>
     X3DCanvas {
       width: 100%;
       height: 100%;
     }
+
+	.content {
+		display: block;
+		position: absolute;
+		z-index:0;
+	}
+
+	.widget {
+		display: block;
+		position: absolute;
+		z-index:1;
+		font-size: 2em;
+		font-weight: bold;
+		opacity:0.75;
+		border-radius: .5em;
+		padding:0em 0.5em 0.3em; 
+		background-color: Grey;
+		cursor: pointer;
+		user-select: none;
+	}
+	
+	.labelledBlinkingToggler {
+		display:none;
+	}
+
+	.labelledBlinkingToggler:checked+span:first-child{
+		animation: blinker .5s infinite;
+	}
+
+	.outlinedText {
+		text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;		
+	}	
+	
+	@keyframes blinker {
+		50% {
+		    opacity: 0;
+		}
+	}
     </style>
 </head>
-<body onLoad="document.getElementById('title').innerText=decodeURI(insertModel('title').split('/').pop())">
-<h1 style="color:rgb(181, 232, 83);opacity:0.5;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;pointer-events: none;" id="title" >Model Loading...</h1>
+<body onload="this.document.body.firstElementChild.firstElementChild.onload();">
+<label class="widget" title="Model Reference">
+<input class="labelledBlinkingToggler" type="checkbox" 
+onload="this.nextElementSibling.nextElementSibling.textContent=insertX3DCanvasChild(this.parentElement.nextElementSibling,'model')"
+oninput="if (this.checked){
+this[record]=record(this.parentElement.nextElementSibling.firstElementChild.children[0].children[1].children[0].captureStream(25));
+this[record].start();
+}else{
+this[record].stop();
+};">
+</input>
+<span title="Recording Status" style="color:red;font-size:larger;">●</span>
+<span class="outlinedText">No Model Set</span>
+</label>
+<span></span>
+<!--<input type="checkbox" oninput="alert(this.firstElementChild);if (this.checked){this.firstElementChild.textContent='🔇︎'}else{this.firstElementChild.textContent='🔊︎'}">-->
+<!--<label><span title="Sound Status" style="color:blue;">🔊︎</span></label>-->
+<!--</input>-->
 </body>
 </html>
-
